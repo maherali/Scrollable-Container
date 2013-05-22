@@ -13,5 +13,7 @@
 }
 
 - (id)initWithChildViewControllers:(NSArray *)_ctrls;
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)controllerWillBePopped;
 
 @end

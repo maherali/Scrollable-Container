@@ -57,6 +57,7 @@
         _pageTitles = pageTitles;
         UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"carousel_bg.png"]];
         [self addSubview:imgView];
+
         _scrollView = [[AMMenuScrollView alloc] initWithFrame:CGRectMake(160-NAV_ITEM_WIDTH/2, 0, NAV_ITEM_WIDTH, 40)];
         _scrollView.contentSize = CGSizeMake([_pageTitles count] *NAV_ITEM_WIDTH, 40);
         _scrollView.pagingEnabled = YES;
@@ -90,8 +91,10 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
 	if ([self pointInside:point withEvent:event]) {
-		return _scrollView;
-	}
+        if (!self.hidden) {
+            return _scrollView;
+        }
+    }
 	return nil;
 }
 
@@ -106,7 +109,7 @@
         UILabel *lbl = [_itemsViews objectAtIndex:idx];
         lbl.textColor = [UIColor lightTextColor];
     }];
-     
+    
     int currentPage = (_scrollView.contentOffset.x + (NAV_ITEM_WIDTH / 2)) / (NAV_ITEM_WIDTH);
     if (currentPage >= _itemsViews.count) {
         currentPage = _itemsViews.count-1;
@@ -129,6 +132,12 @@
     CGPoint p = CGPointMake(point.x * NAV_ITEM_WIDTH/320, point.y);
     [_scrollView updateContentOffset:p];
     [self updateSelectedItemIndicator];
+}
+
+- (void)showMenu:(BOOL) show
+{
+    self.hidden = !show;
+   // [_scrollView removeFromSuperview];
 }
 
 @end

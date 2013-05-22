@@ -18,5 +18,6 @@
 
 - (id)initWithPageTitles:(NSArray *)pageTitles;
 - (void)updateContentOffset:(CGPoint) point;
+- (void)showMenu:(BOOL) show;
 
 @end

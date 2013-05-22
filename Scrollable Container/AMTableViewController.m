@@ -7,6 +7,9 @@
 //
 
 #import "AMTableViewController.h"
+#import "AMNavigationMenu.h"
+#import "AMScrollableContainer.h"
+#import "AMUINavigationControllerAdditions.h"
 
 @interface AMTableViewController ()
 
@@ -23,17 +26,19 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
+//- (void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    AMNavigationMenu *v = (AMNavigationMenu *) [self.navigationController.navigationBar viewWithTag:100];
+//    [v showMenu:NO];
+//}
+//
+//- (void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//    AMNavigationMenu *v = (AMNavigationMenu *) [self.navigationController.navigationBar viewWithTag:100];
+//    [v showMenu:YES];
+//}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -53,6 +58,20 @@
     // Configure the cell...
     cell.textLabel.text = [NSString stringWithFormat:@"Cell %d", indexPath.row];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [(AMScrollableContainer *)self.parentViewController pushViewController:[[AMTableViewController alloc] init] animated:YES];
+}
+
+- (void)willMoveToParentViewController:(UIViewController *)parent
+{    
+    [super willMoveToParentViewController:parent];
+    
+    if (!parent) {
+        [(UINavigationController *)self.parentViewController controllerWillBePopped];
+    }
 }
 
 @end

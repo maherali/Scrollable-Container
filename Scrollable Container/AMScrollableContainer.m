@@ -54,6 +54,7 @@
     
     _menu = [[AMNavigationMenu alloc] initWithPageTitles:[_children valueForKeyPath:@"title"]];
     _menu.navigationMenuDelegate = self;
+    _menu.tag = 100;
     [self.navigationController.navigationBar addSubview:_menu];
 }
 
@@ -65,6 +66,21 @@
 - (void)userInteractingWithMenu:(CGPoint)contentOffset
 {
     [_scrollView updateContentOffset:contentOffset];
+}
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    AMNavigationMenu *v = (AMNavigationMenu *) [self.navigationController.navigationBar viewWithTag:100];
+    [v showMenu:NO];
+
+    [self.navigationController pushViewController:viewController animated:animated];
+}
+
+- (void)controllerWillBePopped
+{
+    AMNavigationMenu *v = (AMNavigationMenu *) [self.navigationController.navigationBar viewWithTag:100];
+    [v showMenu:YES];
+
 }
 
 @end

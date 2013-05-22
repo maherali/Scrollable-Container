@@ -16,6 +16,15 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav_bar_green.png"] forBarMetrics:UIBarMetricsDefault];
+
+    UIBarButtonItem *barButton = [UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil];
+    [barButton setBackButtonTitlePositionAdjustment:UIOffsetMake(2.0f, -2.0f) forBarMetrics:UIBarMetricsDefault];
+	[barButton setBackButtonBackgroundImage:[[UIImage imageNamed:@"nav_bar_back"] stretchableImageWithLeftCapWidth:13 topCapHeight:0] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+	[barButton setBackButtonBackgroundImage:[[UIImage imageNamed:@"nav_bar_back_pressed"] stretchableImageWithLeftCapWidth:13 topCapHeight:0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+
+    
     AMTableViewController *tblCtrl = [[AMTableViewController alloc] init];
     tblCtrl.title = @"Table";
     NSArray *arr = @[
