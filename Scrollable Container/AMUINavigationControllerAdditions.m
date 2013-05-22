@@ -16,7 +16,7 @@
     if (self.viewControllers.count == 2)
     {
         AMNavigationMenu *v = (AMNavigationMenu *) [self.navigationBar viewWithTag:100];
-        [v showMenu:YES];        
+        [v showMenu:YES];
     }
 }
 
