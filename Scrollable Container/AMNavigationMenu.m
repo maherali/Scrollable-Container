@@ -101,6 +101,7 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self updateSelectedItemIndicator];
+    [_navigationMenuDelegate userInteractingWithMenu:CGPointMake(-999, -999)];
 }
 
 - (void)updateSelectedItemIndicator
@@ -137,7 +138,6 @@
 - (void)showMenu:(BOOL) show
 {
     self.hidden = !show;
-   // [_scrollView removeFromSuperview];
 }
 
 @end

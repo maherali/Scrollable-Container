@@ -16,7 +16,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    if (!_statusBarPageControl) {       
+    if (!_statusBarPageControl) {
         _statusBarPageControl = [[UIPageControl alloc] initWithFrame:[[UIApplication sharedApplication] statusBarFrame]];
         _statusBarPageControl.numberOfPages = (self.contentSize.width / self.frame.size.width);
         _statusBarPageControl.backgroundColor = [UIColor clearColor];
@@ -44,10 +44,15 @@
 
 - (void)updateContentOffset:(CGPoint) point
 {
-    [super setContentOffset:point];
-    [self _setShowsPageControl:YES];
-    
-    _statusBarPageControl.currentPage = (point.x + (self.frame.size.width / 2)) / (self.frame.size.width);
+    if (CGPointEqualToPoint(point, CGPointMake(-999, -999))) {
+        [self _setShowsPageControl:NO];
+    }
+    else
+    {
+        [super setContentOffset:point];
+        [self _setShowsPageControl:YES];
+        _statusBarPageControl.currentPage = (point.x + (self.frame.size.width / 2)) / (self.frame.size.width);
+    }
 }
 
 #pragma mark - Private methods

@@ -32,11 +32,15 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void)didReceiveMemoryWarning
 {
-    [super viewDidLoad];
-	self.view.backgroundColor = [UIColor whiteColor];
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+}
+
+- (void)loadView
+{
+    self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame] ;
+    self.view.backgroundColor = [UIColor whiteColor];
     _scrollView = [[AMScrollView alloc] initWithFrame:self.view.bounds];
     _scrollView.contentSize = CGSizeMake(self.view.frame.size.width * _children.count, self.view.frame.size.height);
     _scrollView.pagingEnabled   = YES;
@@ -58,6 +62,11 @@
     [self.navigationController.navigationBar addSubview:_menu];
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+}
+
 - (void)update:(CGPoint) point
 {
     [_menu updateContentOffset:point];
@@ -72,7 +81,7 @@
 {
     AMNavigationMenu *v = (AMNavigationMenu *) [self.navigationController.navigationBar viewWithTag:100];
     [v showMenu:NO];
-
+    
     [self.navigationController pushViewController:viewController animated:animated];
 }
 
@@ -80,7 +89,7 @@
 {
     AMNavigationMenu *v = (AMNavigationMenu *) [self.navigationController.navigationBar viewWithTag:100];
     [v showMenu:YES];
-
+    
 }
 
 @end
