@@ -125,8 +125,6 @@
     [_navigationMenuDelegate userInteractingWithMenu:p];
 }
 
-//This method is called to update the current page in the menu according to the current page in the content scoll view
-//We do translation assuming that the content scroll view width is 320 (full screen width)
 - (void)updateContentOffset:(CGPoint) point
 {
     CGPoint p = CGPointMake(point.x * NAV_ITEM_WIDTH/320, point.y);

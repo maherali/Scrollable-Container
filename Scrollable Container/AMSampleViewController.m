@@ -22,7 +22,7 @@
 - (void)loadView
 {
     [super loadView];
-    self.view = [self labelWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44) text:self.title];
+    self.view = [self labelWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) text:self.title];
 }
 
 - (UILabel *)labelWithFrame: (CGRect)frame text: (NSString *)text {
