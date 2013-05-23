@@ -63,7 +63,6 @@
         if (show) {
             [[[UIApplication sharedApplication] keyWindow] addSubview:_statusBarPageControl];
         }
-        
     } completion:^(BOOL finished) {
         if (!show) {
             [_statusBarPageControl removeFromSuperview];

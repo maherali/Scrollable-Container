@@ -15,8 +15,6 @@
 }
 
 - (id)initWithChildViewControllers:(NSArray *)_ctrls;
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;
-- (void)controllerWillBePopped;
 - (AMNavigationMenu *)menu;
 
 @end

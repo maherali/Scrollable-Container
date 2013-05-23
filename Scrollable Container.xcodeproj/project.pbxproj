@@ -149,8 +149,6 @@
 				6DA79173174D543C00102592 /* AMTableViewController.m */,
 				6DA7916C174D543C00102592 /* AMSampleViewController.h */,
 				6DA7916D174D543C00102592 /* AMSampleViewController.m */,
-				6DA79188174D5EB600102592 /* AMUINavigationController+AMScrollableContainer.h */,
-				6DA79189174D5EB600102592 /* AMUINavigationController+AMScrollableContainer.m */,
 			);
 			name = "Demo App";
 			sourceTree = "<group>";
@@ -164,6 +162,8 @@
 				6DA7916F174D543C00102592 /* AMScrollableContainer.m */,
 				6DA79170174D543C00102592 /* AMScrollView.h */,
 				6DA79171174D543C00102592 /* AMScrollView.m */,
+				6DA79188174D5EB600102592 /* AMUINavigationController+AMScrollableContainer.h */,
+				6DA79189174D5EB600102592 /* AMUINavigationController+AMScrollableContainer.m */,
 				6DA79176174D543C00102592 /* carousel_bg.png */,
 				6DA79177174D543C00102592 /* carousel_bg@2x.png */,
 				6DA79178174D543C00102592 /* carousel_shadow.png */,

@@ -14,5 +14,6 @@
 
 - (void)controllerWillBePopped:(UIViewController *)ctrl;
 - (AMNavigationMenu *)menu;
+- (void)pushViewController:(UIViewController *)viewController;
 
 @end

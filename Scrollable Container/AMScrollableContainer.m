@@ -67,11 +67,6 @@
     [self.navigationController.navigationBar addSubview:_menu];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
 - (void)update:(CGPoint) point
 {
     [_menu updateContentOffset:point];
@@ -80,19 +75,6 @@
 - (void)userInteractingWithMenu:(CGPoint)contentOffset
 {
     [_scrollView updateContentOffset:contentOffset];
-}
-
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    AMNavigationMenu *v = [self.navigationController menu];
-    [v showMenu:NO];   
-    [self.navigationController pushViewController:viewController animated:animated];
-}
-
-- (void)controllerWillBePopped
-{
-    AMNavigationMenu *v = [self.navigationController menu];
-    [v showMenu:YES];    
 }
 
 @end

@@ -16,6 +16,7 @@
     if (self.viewControllers.count == 2)
     {
         [ctrl.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] init]]];
+        [ctrl.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] init]]];
         [self.menu showMenu:YES];
     }
 }
@@ -30,4 +31,12 @@
     }
     return nil;
 }
+
+- (void)pushViewController:(UIViewController *)viewController
+{
+    AMNavigationMenu *v = [self menu];
+    [v showMenu:NO];
+    [self pushViewController:viewController animated:YES];
+}
+
 @end

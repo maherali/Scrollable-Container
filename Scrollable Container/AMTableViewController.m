@@ -11,22 +11,7 @@
 #import "AMScrollableContainer.h"
 #import "AMUINavigationController+AMScrollableContainer.h"
 
-@interface AMTableViewController ()
-
-@end
-
 @implementation AMTableViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -41,15 +26,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    
-    // Configure the cell...
     cell.textLabel.text = [NSString stringWithFormat:@"Cell %d", indexPath.row];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [(AMScrollableContainer *)self.parentViewController pushViewController:[[AMTableViewController alloc] init] animated:YES];
+    [self.navigationController pushViewController:[[AMTableViewController alloc] init]];
 }
 
 - (void)willMoveToParentViewController:(UIViewController *)parent

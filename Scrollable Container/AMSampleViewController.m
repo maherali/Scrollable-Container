@@ -8,10 +8,6 @@
 
 #import "AMSampleViewController.h"
 
-@interface AMSampleViewController ()
-
-@end
-
 @implementation AMSampleViewController
 
 - (id)initWithTitle:(NSString*) ttl
@@ -26,10 +22,10 @@
 - (void)loadView
 {
     [super loadView];
-    self.view = [self _simpleLabelWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44) andText:self.title];
+    self.view = [self labelWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44) text:self.title];
 }
 
-- (UILabel *)_simpleLabelWithFrame: (CGRect)frame andText: (NSString *)text {
+- (UILabel *)labelWithFrame: (CGRect)frame text: (NSString *)text {
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.text = text;
     label.font = [UIFont boldSystemFontOfSize:28.];
