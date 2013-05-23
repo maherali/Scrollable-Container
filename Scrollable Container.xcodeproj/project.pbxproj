@@ -26,7 +26,7 @@
 		6DA79182174D543C00102592 /* carousel_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DA79178174D543C00102592 /* carousel_shadow.png */; };
 		6DA79183174D543C00102592 /* carousel_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DA79179174D543C00102592 /* carousel_shadow@2x.png */; };
 		6DA79187174D56ED00102592 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 6DA79186174D56ED00102592 /* README.md */; };
-		6DA7918A174D5EB600102592 /* AMUINavigationControllerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA79189174D5EB600102592 /* AMUINavigationControllerAdditions.m */; };
+		6DA7918A174D5EB600102592 /* AMUINavigationController+AMScrollableContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA79189174D5EB600102592 /* AMUINavigationController+AMScrollableContainer.m */; };
 		6DA7918D174D611B00102592 /* nav_bar_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DA7918B174D611B00102592 /* nav_bar_green.png */; };
 		6DA7918E174D611B00102592 /* nav_bar_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DA7918C174D611B00102592 /* nav_bar_green@2x.png */; };
 		6DA79193174D627D00102592 /* nav_bar_back_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DA7918F174D627C00102592 /* nav_bar_back_pressed.png */; };
@@ -64,8 +64,8 @@
 		6DA79178174D543C00102592 /* carousel_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carousel_shadow.png; sourceTree = "<group>"; };
 		6DA79179174D543C00102592 /* carousel_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "carousel_shadow@2x.png"; sourceTree = "<group>"; };
 		6DA79186174D56ED00102592 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
-		6DA79188174D5EB600102592 /* AMUINavigationControllerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMUINavigationControllerAdditions.h; sourceTree = "<group>"; };
-		6DA79189174D5EB600102592 /* AMUINavigationControllerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMUINavigationControllerAdditions.m; sourceTree = "<group>"; };
+		6DA79188174D5EB600102592 /* AMUINavigationController+AMScrollableContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMUINavigationController+AMScrollableContainer.h"; sourceTree = "<group>"; };
+		6DA79189174D5EB600102592 /* AMUINavigationController+AMScrollableContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AMUINavigationController+AMScrollableContainer.m"; sourceTree = "<group>"; };
 		6DA7918B174D611B00102592 /* nav_bar_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_bar_green.png; sourceTree = "<group>"; };
 		6DA7918C174D611B00102592 /* nav_bar_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_bar_green@2x.png"; sourceTree = "<group>"; };
 		6DA7918F174D627C00102592 /* nav_bar_back_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_bar_back_pressed.png; sourceTree = "<group>"; };
@@ -149,8 +149,8 @@
 				6DA79173174D543C00102592 /* AMTableViewController.m */,
 				6DA7916C174D543C00102592 /* AMSampleViewController.h */,
 				6DA7916D174D543C00102592 /* AMSampleViewController.m */,
-				6DA79188174D5EB600102592 /* AMUINavigationControllerAdditions.h */,
-				6DA79189174D5EB600102592 /* AMUINavigationControllerAdditions.m */,
+				6DA79188174D5EB600102592 /* AMUINavigationController+AMScrollableContainer.h */,
+				6DA79189174D5EB600102592 /* AMUINavigationController+AMScrollableContainer.m */,
 			);
 			name = "Demo App";
 			sourceTree = "<group>";
@@ -262,7 +262,7 @@
 				6DA7917C174D543C00102592 /* AMScrollableContainer.m in Sources */,
 				6DA7917D174D543C00102592 /* AMScrollView.m in Sources */,
 				6DA7917E174D543C00102592 /* AMTableViewController.m in Sources */,
-				6DA7918A174D5EB600102592 /* AMUINavigationControllerAdditions.m in Sources */,
+				6DA7918A174D5EB600102592 /* AMUINavigationController+AMScrollableContainer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

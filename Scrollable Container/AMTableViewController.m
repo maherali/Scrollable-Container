@@ -9,7 +9,7 @@
 #import "AMTableViewController.h"
 #import "AMNavigationMenu.h"
 #import "AMScrollableContainer.h"
-#import "AMUINavigationControllerAdditions.h"
+#import "AMUINavigationController+AMScrollableContainer.h"
 
 @interface AMTableViewController ()
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Agilis Mobility. All rights reserved.
 //
 
-#import "AMUINavigationControllerAdditions.h"
+#import "AMUINavigationController+AMScrollableContainer.h"
 #import "AMNavigationMenu.h"
 
 @implementation UINavigationController (AMScrollableContainer)

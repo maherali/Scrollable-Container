@@ -10,7 +10,7 @@
 #import "AMNavigationMenu.h"
 #import "AMSampleViewController.h"
 #import "AMTableViewController.h"
-#import "AMUINavigationControllerAdditions.h"
+#import "AMUINavigationController+AMScrollableContainer.h"
 
 @interface AMScrollableContainer () <AMScrollViewDelegate, UIScrollViewDelegate, NavigationMenuDelegate>
 
