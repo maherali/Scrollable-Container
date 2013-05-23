@@ -23,16 +23,21 @@
     }
 }
 
+- (NSUInteger)pageForX:(CGFloat)x
+{
+    return (x + (self.frame.size.width / 2)) / (self.frame.size.width);
+}
+
 - (void)updatePaging:(CGPoint)contentOffset
 {
     if (self.isTracking) {
-        [self _setShowsPageControl:YES];
+        [self showPageControl:YES];
     }
     else if (!self.isDragging) {
-        [self _setShowsPageControl:NO];
+        [self showPageControl:NO];
     }
     
-    _statusBarPageControl.currentPage = (contentOffset.x + (self.frame.size.width / 2)) / (self.frame.size.width);
+    _statusBarPageControl.currentPage = [self pageForX:contentOffset.x];
 }
 
 - (void)setContentOffset:(CGPoint)contentOffset {
@@ -45,17 +50,17 @@
 - (void)updateContentOffset:(CGPoint) point
 {
     if (CGPointEqualToPoint(point, CGPointMake(-999, -999))) {
-        [self _setShowsPageControl:NO];
+        [self showPageControl:NO];
     }
     else
     {
         [super setContentOffset:point];
-        [self _setShowsPageControl:YES];
-        _statusBarPageControl.currentPage = (point.x + (self.frame.size.width / 2)) / (self.frame.size.width);
+        [self showPageControl:YES];
+        _statusBarPageControl.currentPage = [self pageForX:point.x];
     }
 }
 
-- (void)_setShowsPageControl:(BOOL)show {
+- (void)showPageControl:(BOOL)show {
     [UIView animateWithDuration:0 animations:^{
         [[UIApplication sharedApplication] setStatusBarHidden:show withAnimation:UIStatusBarAnimationFade];
         _statusBarPageControl.alpha = show;

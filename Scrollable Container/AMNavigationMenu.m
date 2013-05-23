@@ -50,8 +50,7 @@
 {
     self = [super initWithFrame:CGRectMake(0, 0, 320, 44)];
     
-    if (self) {
-        
+    if (self) {        
         NSAssert(pageTitles.count, @"Page titles should not be empty");
         
         _pageTitles = pageTitles;
@@ -113,7 +112,7 @@
     
     int currentPage = (_scrollView.contentOffset.x + (NAV_ITEM_WIDTH / 2)) / (NAV_ITEM_WIDTH);
     if (currentPage >= _itemsViews.count) {
-        currentPage = _itemsViews.count-1;
+        currentPage = _itemsViews.count - 1;
     }
     UILabel *lbl = [_itemsViews objectAtIndex:currentPage];
     lbl.textColor = [UIColor whiteColor];
