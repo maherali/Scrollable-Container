@@ -34,8 +34,7 @@
 
 - (void)pushViewController:(UIViewController *)viewController
 {
-    AMNavigationMenu *v = [self menu];
-    [v showMenu:NO];
+    [[self menu] showMenu:NO];
     [self pushViewController:viewController animated:YES];
 }
 

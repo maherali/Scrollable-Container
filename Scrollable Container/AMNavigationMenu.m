@@ -88,7 +88,8 @@
     return self;
 }
 
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
 	if ([self pointInside:point withEvent:event]) {
         if (!self.hidden) {
             return _scrollView;

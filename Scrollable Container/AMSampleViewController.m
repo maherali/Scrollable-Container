@@ -25,7 +25,8 @@
     self.view = [self labelWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) text:self.title];
 }
 
-- (UILabel *)labelWithFrame: (CGRect)frame text: (NSString *)text {
+- (UILabel *)labelWithFrame: (CGRect)frame text: (NSString *)text
+{
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.text = text;
     label.font = [UIFont boldSystemFontOfSize:28.];

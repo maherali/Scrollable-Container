@@ -13,7 +13,8 @@
     UIPageControl    * _statusBarPageControl;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     
     if (!_statusBarPageControl) {
@@ -40,9 +41,9 @@
     _statusBarPageControl.currentPage = [self pageForX:contentOffset.x];
 }
 
-- (void)setContentOffset:(CGPoint)contentOffset {
-    [super setContentOffset:contentOffset];
-    
+- (void)setContentOffset:(CGPoint)contentOffset
+{
+    [super setContentOffset:contentOffset];    
     [self updatePaging:contentOffset];
     [self.amScrollViewDelegate update:contentOffset];
 }
@@ -60,7 +61,8 @@
     }
 }
 
-- (void)showPageControl:(BOOL)show {
+- (void)showPageControl:(BOOL)show
+{
     [UIView animateWithDuration:0 animations:^{
         [[UIApplication sharedApplication] setStatusBarHidden:show withAnimation:UIStatusBarAnimationFade];
         _statusBarPageControl.alpha = show;
