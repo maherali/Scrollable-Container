@@ -55,11 +55,8 @@
 - (void)willMoveToParentViewController:(UIViewController *)parent
 {    
     [super willMoveToParentViewController:parent];
-    
     if (!parent) {
-        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] init]]];
-
-        [(UINavigationController *)self.parentViewController controllerWillBePopped];
+        [(UINavigationController *)self.parentViewController controllerWillBePopped:self];
     }
 }
 

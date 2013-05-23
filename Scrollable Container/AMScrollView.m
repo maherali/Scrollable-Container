@@ -56,8 +56,8 @@
 }
 
 - (void)_setShowsPageControl:(BOOL)show {
-    [UIView animateWithDuration:.4 animations:^{
-       [[UIApplication sharedApplication] setStatusBarHidden:show withAnimation:UIStatusBarAnimationFade];
+    [UIView animateWithDuration:0 animations:^{
+        [[UIApplication sharedApplication] setStatusBarHidden:show withAnimation:UIStatusBarAnimationFade];
         _statusBarPageControl.alpha = show;
         
         if (show) {
@@ -69,6 +69,6 @@
             [_statusBarPageControl removeFromSuperview];
         }
     }];
-  }
+}
 
 @end

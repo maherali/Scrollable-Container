@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class AMNavigationMenu;
+
 @interface UINavigationController (AMScrollableContainer)
 
-- (void)controllerWillBePopped;
+- (void)controllerWillBePopped:(UIViewController *)ctrl;
+- (AMNavigationMenu *)menu;
 
 @end

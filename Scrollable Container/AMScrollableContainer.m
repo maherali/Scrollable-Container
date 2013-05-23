@@ -10,6 +10,7 @@
 #import "AMNavigationMenu.h"
 #import "AMSampleViewController.h"
 #import "AMTableViewController.h"
+#import "AMUINavigationControllerAdditions.h"
 
 @interface AMScrollableContainer () <AMScrollViewDelegate, UIScrollViewDelegate, NavigationMenuDelegate>
 
@@ -30,6 +31,11 @@
     }
     
     return self;
+}
+
+- (AMNavigationMenu *)menu
+{
+    return _menu;
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,7 +64,6 @@
     
     _menu = [[AMNavigationMenu alloc] initWithPageTitles:[_children valueForKeyPath:@"title"]];
     _menu.navigationMenuDelegate = self;
-    _menu.tag = 100;
     [self.navigationController.navigationBar addSubview:_menu];
 }
 
@@ -79,17 +84,15 @@
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    AMNavigationMenu *v = (AMNavigationMenu *) [self.navigationController.navigationBar viewWithTag:100];
-    [v showMenu:NO];
-    
+    AMNavigationMenu *v = [self.navigationController menu];
+    [v showMenu:NO];   
     [self.navigationController pushViewController:viewController animated:animated];
 }
 
 - (void)controllerWillBePopped
 {
-    AMNavigationMenu *v = (AMNavigationMenu *) [self.navigationController.navigationBar viewWithTag:100];
-    [v showMenu:YES];
-    
+    AMNavigationMenu *v = [self.navigationController menu];
+    [v showMenu:YES];    
 }
 
 @end

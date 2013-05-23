@@ -11,13 +11,23 @@
 
 @implementation UINavigationController (AMScrollableContainer)
 
-- (void)controllerWillBePopped
+- (void)controllerWillBePopped:(UIViewController *)ctrl
 {
     if (self.viewControllers.count == 2)
     {
-        AMNavigationMenu *v = (AMNavigationMenu *) [self.navigationBar viewWithTag:100];
-        [v showMenu:YES];
+        [ctrl.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] init]]];
+        [self.menu showMenu:YES];
     }
 }
 
+- (AMNavigationMenu *)menu
+{
+    UIView *v = self.navigationBar;
+    for (UIView *subView in v.subviews) {
+        if ([subView isKindOfClass:[AMNavigationMenu class]]) {
+            return (AMNavigationMenu *)subView;
+        }
+    }
+    return nil;
+}
 @end
