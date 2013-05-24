@@ -10,7 +10,8 @@
 
 @implementation AMScrollView
 {
-    UIPageControl    * _statusBarPageControl;
+    UIPageControl       * _statusBarPageControl;
+    NSTimer             *_timer;
 }
 
 - (void)layoutSubviews
@@ -37,13 +38,12 @@
     else if (!self.isDragging) {
         [self showPageControl:NO];
     }
-    
     _statusBarPageControl.currentPage = [self pageForX:contentOffset.x];
 }
 
 - (void)setContentOffset:(CGPoint)contentOffset
 {
-    [super setContentOffset:contentOffset];    
+    [super setContentOffset:contentOffset];
     [self updatePaging:contentOffset];
     [self.amScrollViewDelegate update:contentOffset];
 }
@@ -61,20 +61,34 @@
     }
 }
 
-- (void)showPageControl:(BOOL)show
+- (void)animateStatusBarState:(NSTimer *)timer
 {
-    [UIView animateWithDuration:0 animations:^{
-        [[UIApplication sharedApplication] setStatusBarHidden:show withAnimation:UIStatusBarAnimationFade];
-        _statusBarPageControl.alpha = show;
-        
+    BOOL show = [[timer.userInfo valueForKey:@"show"] boolValue];
+    
+    [UIView animateWithDuration:.4 animations:^{
         if (show) {
             [[[UIApplication sharedApplication] keyWindow] addSubview:_statusBarPageControl];
         }
     } completion:^(BOOL finished) {
-        if (!show) {
-            [_statusBarPageControl removeFromSuperview];
+        if (!show) {            
+            [UIView animateWithDuration:1 animations:^{
+                [[UIApplication sharedApplication] setStatusBarHidden:NO];
+            } completion:^(BOOL finished) {
+                [_statusBarPageControl removeFromSuperview];
+            }];
         }
     }];
+}
+
+- (void)showPageControl:(BOOL)show
+{
+    [_timer invalidate];
+    
+    if (show) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    }
+    _timer = [NSTimer timerWithTimeInterval:show ? 0 : 2 target:self selector:@selector(animateStatusBarState:) userInfo:@{ @"show" : [NSNumber numberWithBool:show] } repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 }
 
 @end
