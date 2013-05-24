@@ -67,7 +67,12 @@
     
     [UIView animateWithDuration:.4 animations:^{
         if (show) {
-            [[[UIApplication sharedApplication] keyWindow] addSubview:_statusBarPageControl];
+            
+            [UIView animateWithDuration:1 animations:^{
+                [[UIApplication sharedApplication] setStatusBarHidden:YES];
+                [[[UIApplication sharedApplication] keyWindow] addSubview:_statusBarPageControl];
+            } completion:NULL];
+            
         }
     } completion:^(BOOL finished) {
         if (!show) {            
@@ -82,11 +87,7 @@
 
 - (void)showPageControl:(BOOL)show
 {
-    [_timer invalidate];
-    
-    if (show) {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-    }
+    [_timer invalidate];    
     _timer = [NSTimer timerWithTimeInterval:show ? 0 : 2 target:self selector:@selector(animateStatusBarState:) userInfo:@{ @"show" : [NSNumber numberWithBool:show] } repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 }
