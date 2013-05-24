@@ -57,8 +57,6 @@
     _scrollView.delegate        = self;
     _scrollView.amScrollViewDelegate      = self;
     
-//    self.view.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin;
-    
     [_children enumerateObjectsUsingBlock:^(UIViewController *obj, NSUInteger idx, BOOL *stop) {
         [obj willMoveToParentViewController:self];
         [self addChildViewController:obj];
