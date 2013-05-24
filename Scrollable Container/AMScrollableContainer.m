@@ -23,6 +23,8 @@
     NSArray             *_children;
     NSTimer             *_timer;
     BOOL                _finished;
+    UIPageControl       * _statusBarPageControl;
+    NSTimer             *_pageControlTimer;
 }
 
 - (id)initWithChildViewControllers:(NSArray *)_ctrls
@@ -69,16 +71,55 @@
     _menu = [[AMNavigationMenu alloc] initWithPageTitles:[_children valueForKeyPath:@"title"]];
     _menu.navigationMenuDelegate = self;
     [self.navigationController.navigationBar addSubview:_menu];
+    
+    
+    if (!_statusBarPageControl) {
+        _statusBarPageControl = [[UIPageControl alloc] initWithFrame:[[UIApplication sharedApplication] statusBarFrame]];
+        _statusBarPageControl.numberOfPages = (_scrollView.contentSize.width / _scrollView.frame.size.width);
+        _statusBarPageControl.backgroundColor = [UIColor clearColor];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationWillResignActive:)
+                                                     name:UIApplicationWillResignActiveNotification
+                                                   object:nil];
+    }
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
+- (void)applicationWillResignActive:(NSNotification *)notification {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [_statusBarPageControl removeFromSuperview];
 }
 
 - (void)update:(CGPoint) point
 {
+    if (_scrollView.isTracking) {
+        [self showPageControl:YES];
+    }
+    else if (!_scrollView.isDragging) {
+        [self showPageControl:NO];
+    }
+    _statusBarPageControl.currentPage = [self pageForX:point.x];
+    
     [_menu updateContentOffset:point];
 }
 
 - (void)userInteractingWithMenu:(CGPoint)contentOffset
 {
-    [_scrollView updateContentOffset:contentOffset];
+    if (CGPointEqualToPoint(contentOffset, CGPointMake(-999, -999))) {
+        [self showPageControl:NO];
+    }
+    else
+    {
+        [_scrollView updateContentOffset:contentOffset];
+        [self showPageControl:YES];
+        _statusBarPageControl.currentPage = [self pageForX:contentOffset.x];
+    }
     
     NSUInteger currentChild = (_scrollView.contentOffset.x + (self.view.frame.size.width / 2)) / (self.view.frame.size.width);
     if (currentChild >= _children.count) {
@@ -137,35 +178,47 @@
         currentChild = _children.count - 1;
     }
     [_timer invalidate];
-    _timer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(animateScale:)
+    _timer = [NSTimer timerWithTimeInterval:0.0 target:self selector:@selector(animateScale:)
                                    userInfo:@ {@"current" : [NSNumber numberWithInt:currentChild], @"scale" : [NSNumber numberWithBool:NO] } repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 }
 
 - (void)animateScale:(NSTimer *) t
 {
-    if (!_finished) {
-        return;
-    }
-    
     NSUInteger  currentChild    = [[t.userInfo valueForKey:@"current"] intValue];
     BOOL        scale           = [[t.userInfo valueForKey:@"scale"] boolValue];
     UIView      *v              = [_children[currentChild] view];
     
+    if (!_finished) {
+        return;
+    }
+    
+    if (scale) {
+        [self showPageControl:YES];
+    }
+    else
+    {
+        [self showPageControl:NO];
+    }
+   
+     _finished = NO;
+    
     if (scale) {
         v.layer.cornerRadius = 5;
     }
-    
+          
     __weak AMScrollableContainer *weakSelf = self;
     
-    _finished = NO;
-    [UIView animateWithDuration:.2 delay:0 options:UIViewAnimationOptionCurveLinear
+    [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          v.transform = scale ? CGAffineTransformMakeScale(0.9, 0.9) : CGAffineTransformIdentity;
                      }
                      completion: ^(BOOL finished){
                          AMScrollableContainer *strongSelf = weakSelf;
-                         strongSelf->_finished = YES;
+                         if(strongSelf)
+                         {
+                             strongSelf->_finished = YES;
+                         }
                          if (!scale) {
                              v.layer.cornerRadius =  0;
                          }
@@ -173,13 +226,50 @@
      ];
 }
 
+- (void)showPageControl:(BOOL)show
+{
+    __weak AMScrollableContainer *weakSelf = self;
+    
+    if (show)
+    {
+        [UIView animateWithDuration:0.4 animations:^{
+            AMScrollableContainer *strongSelf = weakSelf;
+            if (strongSelf) {
+                [[UIApplication sharedApplication] setStatusBarHidden:YES];
+                 [[[UIApplication sharedApplication] keyWindow] addSubview:strongSelf->_statusBarPageControl];
+            }
+        } completion:^(BOOL finished){
+            AMScrollableContainer *strongSelf = weakSelf;
+            if (strongSelf) {
+               
+            }
+            
+        }];
+    }
+    else
+    {
+        [UIView animateWithDuration:0.4 animations:^{
+            AMScrollableContainer *strongSelf = weakSelf;
+            if(strongSelf)
+            {
+                [[UIApplication sharedApplication] setStatusBarHidden:NO];
+                [strongSelf->_statusBarPageControl removeFromSuperview];
+            }
+        } completion:^(BOOL finished){
+            AMScrollableContainer *strongSelf = weakSelf;
+            if(strongSelf)
+            {
+            }
+        }];
+    }
+}
+
+- (NSUInteger)pageForX:(CGFloat)x
+{
+    return (x + (_scrollView.frame.size.width / 2)) / (_scrollView.frame.size.width);
+}
+
 @end
-
-
-
-
-
-
 
 
 

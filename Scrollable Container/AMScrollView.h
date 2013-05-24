@@ -12,8 +12,7 @@
 
 @end
 
-@interface AMScrollView : UIScrollView {
-}
+@interface AMScrollView : UIScrollView
 
 @property (nonatomic, assign) id<AMScrollViewDelegate> amScrollViewDelegate;
 
