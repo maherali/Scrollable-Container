@@ -46,7 +46,7 @@
 - (void)loadView
 {
     self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame] ;
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
     _scrollView = [[AMScrollView alloc] initWithFrame:self.view.bounds];
     _scrollView.contentSize = CGSizeMake(self.view.frame.size.width * _children.count, self.view.frame.size.height);
     _scrollView.pagingEnabled   = YES;
@@ -77,4 +77,64 @@
     [_scrollView updateContentOffset:contentOffset];
 }
 
+#pragma mark - Scrollview delegate calls
+
+- (void) x:(UIViewController *)vc
+{
+    CGAffineTransform transform = CGAffineTransformMakeScale(0.9, 0.9);
+    vc.view.transform = transform;
+    
+    [UIView animateWithDuration:10 delay:0 options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         vc.view.transform = transform;
+                     }
+                     completion: ^(BOOL finished){
+                     }];
+}
+
+- (void)scrollIt:(NSTimer *) t
+{
+    NSUInteger currentChild = (_scrollView.contentOffset.x + (self.view.frame.size.width / 2)) / (self.view.frame.size.width);
+    [self x:_children[currentChild]];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    NSUInteger currentChild = (_scrollView.contentOffset.x + (self.view.frame.size.width / 2)) / (self.view.frame.size.width);
+    CGAffineTransform transform = CGAffineTransformMakeScale(0.9, 0.9);
+    [_children enumerateObjectsUsingBlock:^(UIViewController *obj, NSUInteger idx, BOOL *stop) {
+        if (idx != currentChild) {
+            obj.view.transform = transform;
+        }
+    }];
+    
+    NSTimer *timer = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:0] interval:0 target:self selector:@selector(scrollIt:) userInfo:nil repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    NSUInteger currentChild = (_scrollView.contentOffset.x + (self.view.frame.size.width / 2)) / (self.view.frame.size.width);
+    NSLog(@"Settlled child is: %@", [_children[currentChild] title]);
+    
+    [_children enumerateObjectsUsingBlock:^(UIViewController *vc, NSUInteger idx, BOOL *stop) {
+        vc.view.transform = CGAffineTransformIdentity;
+    }];
+    
+}
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
