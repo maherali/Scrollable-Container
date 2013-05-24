@@ -11,6 +11,7 @@
 #import "AMSampleViewController.h"
 #import "AMTableViewController.h"
 #import "AMUINavigationController+AMScrollableContainer.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface AMScrollableContainer () <AMScrollViewDelegate, UIScrollViewDelegate, NavigationMenuDelegate>
 
@@ -20,6 +21,8 @@
 {
     AMNavigationMenu    *_menu;
     NSArray             *_children;
+    NSTimer             *_timer;
+    BOOL                _finished;
 }
 
 - (id)initWithChildViewControllers:(NSArray *)_ctrls
@@ -28,6 +31,7 @@
     
     if (self) {
         _children = _ctrls;
+        _finished = YES;
     }
     
     return self;
@@ -75,53 +79,96 @@
 - (void)userInteractingWithMenu:(CGPoint)contentOffset
 {
     [_scrollView updateContentOffset:contentOffset];
+    
+    NSUInteger currentChild = (_scrollView.contentOffset.x + (self.view.frame.size.width / 2)) / (self.view.frame.size.width);
+    if (currentChild >= _children.count) {
+        currentChild = _children.count - 1;
+    }
+    
+    if (CGPointEqualToPoint(contentOffset, CGPointMake(-999, -999))) {
+        [_timer invalidate];
+        _timer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(animateScale:) userInfo:@ { @"current" : [NSNumber numberWithInt:currentChild], @"scale" : [NSNumber numberWithBool:NO] } repeats:NO];
+        [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+    }
+    else
+    {
+        [_timer invalidate];
+        _timer = [NSTimer timerWithTimeInterval:0 target:self selector:@selector(animateScale:) userInfo:@ { @"current" : [NSNumber numberWithInt:currentChild], @"scale" : [NSNumber numberWithBool:YES] } repeats:NO];
+        [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+    }
 }
 
 #pragma mark - Scrollview delegate calls
 
-- (void) x:(UIViewController *)vc
-{
-    CGAffineTransform transform = CGAffineTransformMakeScale(0.9, 0.9);
-    vc.view.transform = transform;
-    
-    [UIView animateWithDuration:10 delay:0 options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         vc.view.transform = transform;
-                     }
-                     completion: ^(BOOL finished){
-                     }];
-}
-
-- (void)scrollIt:(NSTimer *) t
-{
-    NSUInteger currentChild = (_scrollView.contentOffset.x + (self.view.frame.size.width / 2)) / (self.view.frame.size.width);
-    [self x:_children[currentChild]];
-}
-
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     NSUInteger currentChild = (_scrollView.contentOffset.x + (self.view.frame.size.width / 2)) / (self.view.frame.size.width);
+    if (currentChild >= _children.count) {
+        currentChild = _children.count - 1;
+    }
     CGAffineTransform transform = CGAffineTransformMakeScale(0.9, 0.9);
     [_children enumerateObjectsUsingBlock:^(UIViewController *obj, NSUInteger idx, BOOL *stop) {
         if (idx != currentChild) {
             obj.view.transform = transform;
+            obj.view.layer.cornerRadius = 5;
         }
     }];
     
-    NSTimer *timer = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:0] interval:0 target:self selector:@selector(scrollIt:) userInfo:nil repeats:NO];
-    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    [_timer invalidate];
+    _timer = [NSTimer timerWithTimeInterval:0 target:self selector:@selector(animateScale:)
+                                   userInfo:@ {@"current" : [NSNumber numberWithInt:currentChild], @"scale" : [NSNumber numberWithBool:YES] } repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     NSUInteger currentChild = (_scrollView.contentOffset.x + (self.view.frame.size.width / 2)) / (self.view.frame.size.width);
-    NSLog(@"Settlled child is: %@", [_children[currentChild] title]);
-    
-    [_children enumerateObjectsUsingBlock:^(UIViewController *vc, NSUInteger idx, BOOL *stop) {
-        vc.view.transform = CGAffineTransformIdentity;
-    }];
-    
+    if (currentChild >= _children.count) {
+        currentChild = _children.count - 1;
+    }
+    [_timer invalidate];
+    _timer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(animateScale:)
+                                   userInfo:@ {@"current" : [NSNumber numberWithInt:currentChild], @"scale" : [NSNumber numberWithBool:NO] } repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 }
+
+- (void)animateScale:(NSTimer *) t
+{
+    if (!_finished) {
+        return;
+    }
+    
+    NSUInteger  currentChild    = [[t.userInfo valueForKey:@"current"] intValue];
+    BOOL        scale           = [[t.userInfo valueForKey:@"scale"] boolValue];
+    UIView      *v              = [_children[currentChild] view];
+    
+    //    if (scale && !CGAffineTransformEqualToTransform(v.transform, CGAffineTransformIdentity)) {
+    //        return;
+    //    }
+    //    else
+    //    {
+    if (scale) {
+        v.layer.cornerRadius = 5;
+    }
+    
+    __weak AMScrollableContainer *weakSelf = self;
+    
+    _finished = NO;
+    [UIView animateWithDuration:scale ? .2 : .2 delay:scale ? 0 : 0 options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         v.transform = scale ? CGAffineTransformMakeScale(0.9, 0.9) : CGAffineTransformIdentity;
+                     }
+                     completion: ^(BOOL finished){                         
+                         AMScrollableContainer *strongSelf = weakSelf;                         
+                         strongSelf->_finished = YES;
+                         if (!scale) {
+                             v.layer.cornerRadius =  0;
+                         }
+                     }
+     ];
+    //    }
+}
+
 
 @end
 

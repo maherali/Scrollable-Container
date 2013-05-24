@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D83303A174F9B8E000FB685 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D833039174F9B8E000FB685 /* QuartzCore.framework */; };
 		6DA7914E174D532B00102592 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA7914D174D532B00102592 /* UIKit.framework */; };
 		6DA79150174D532B00102592 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA7914F174D532B00102592 /* Foundation.framework */; };
 		6DA79152174D532B00102592 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA79151174D532B00102592 /* CoreGraphics.framework */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6D833039174F9B8E000FB685 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6DA7914A174D532B00102592 /* Scrollable Container.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Scrollable Container.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DA7914D174D532B00102592 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6DA7914F174D532B00102592 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -79,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D83303A174F9B8E000FB685 /* QuartzCore.framework in Frameworks */,
 				6DA7914E174D532B00102592 /* UIKit.framework in Frameworks */,
 				6DA79150174D532B00102592 /* Foundation.framework in Frameworks */,
 				6DA79152174D532B00102592 /* CoreGraphics.framework in Frameworks */,
@@ -108,6 +111,7 @@
 		6DA7914C174D532B00102592 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D833039174F9B8E000FB685 /* QuartzCore.framework */,
 				6DA7914D174D532B00102592 /* UIKit.framework */,
 				6DA7914F174D532B00102592 /* Foundation.framework */,
 				6DA79151174D532B00102592 /* CoreGraphics.framework */,
