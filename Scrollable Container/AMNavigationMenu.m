@@ -136,10 +136,9 @@
 - (void)showMenu:(BOOL) show
 {
     self.hidden = !show;
-    if (show) {
-        [_navigationMenuDelegate userInteractingWithMenu:CGPointMake(-999, -999)];
-    }
-    
+//    if (!show) {
+//        [_navigationMenuDelegate userInteractingWithMenu:CGPointMake(-999, -999)];
+//    }    
 }
 
 @end

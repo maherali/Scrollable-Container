@@ -16,5 +16,6 @@
 
 - (id)initWithChildViewControllers:(NSArray *)_ctrls;
 - (AMNavigationMenu *)menu;
+-(void)makeAllViewsIdentityExceptAtIndex:(NSUInteger) index;
 
 @end

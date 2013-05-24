@@ -57,6 +57,8 @@
     _scrollView.delegate        = self;
     _scrollView.amScrollViewDelegate      = self;
     
+//    self.view.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin;
+    
     [_children enumerateObjectsUsingBlock:^(UIViewController *obj, NSUInteger idx, BOOL *stop) {
         [obj willMoveToParentViewController:self];
         [self addChildViewController:obj];
@@ -100,6 +102,16 @@
 
 #pragma mark - Scrollview delegate calls
 
+-(void)makeAllViewsIdentityExceptAtIndex:(NSUInteger) index
+{
+    [_children enumerateObjectsUsingBlock:^(UIViewController *obj, NSUInteger idx, BOOL *stop) {
+        if (idx != index) {
+            obj.view.transform = CGAffineTransformIdentity;
+            obj.view.layer.cornerRadius = 0;
+        }
+    }];
+}
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     NSUInteger currentChild = (_scrollView.contentOffset.x + (self.view.frame.size.width / 2)) / (self.view.frame.size.width);
@@ -116,7 +128,7 @@
     
     [_timer invalidate];
     _timer = [NSTimer timerWithTimeInterval:0 target:self selector:@selector(animateScale:)
-                                   userInfo:@ {@"current" : [NSNumber numberWithInt:currentChild], @"scale" : [NSNumber numberWithBool:YES] } repeats:NO];
+                                   userInfo:@ { @"current" : [NSNumber numberWithInt:currentChild], @"scale" : [NSNumber numberWithBool:YES] } repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 }
 
@@ -142,11 +154,6 @@
     BOOL        scale           = [[t.userInfo valueForKey:@"scale"] boolValue];
     UIView      *v              = [_children[currentChild] view];
     
-    //    if (scale && !CGAffineTransformEqualToTransform(v.transform, CGAffineTransformIdentity)) {
-    //        return;
-    //    }
-    //    else
-    //    {
     if (scale) {
         v.layer.cornerRadius = 5;
     }
@@ -154,21 +161,19 @@
     __weak AMScrollableContainer *weakSelf = self;
     
     _finished = NO;
-    [UIView animateWithDuration:scale ? .2 : .2 delay:scale ? 0 : 0 options:UIViewAnimationOptionCurveLinear
+    [UIView animateWithDuration:.2 delay:0 options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          v.transform = scale ? CGAffineTransformMakeScale(0.9, 0.9) : CGAffineTransformIdentity;
                      }
-                     completion: ^(BOOL finished){                         
-                         AMScrollableContainer *strongSelf = weakSelf;                         
+                     completion: ^(BOOL finished){
+                         AMScrollableContainer *strongSelf = weakSelf;
                          strongSelf->_finished = YES;
                          if (!scale) {
                              v.layer.cornerRadius =  0;
                          }
                      }
      ];
-    //    }
 }
-
 
 @end
 

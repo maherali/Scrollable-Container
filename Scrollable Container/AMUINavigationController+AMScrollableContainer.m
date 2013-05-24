@@ -8,6 +8,7 @@
 
 #import "AMUINavigationController+AMScrollableContainer.h"
 #import "AMNavigationMenu.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation UINavigationController (AMScrollableContainer)
 
@@ -35,6 +36,7 @@
 - (void)pushViewController:(UIViewController *)viewController
 {
     [[self menu] showMenu:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [self pushViewController:viewController animated:YES];
 }
 
