@@ -22,7 +22,22 @@
         _statusBarPageControl = [[UIPageControl alloc] initWithFrame:[[UIApplication sharedApplication] statusBarFrame]];
         _statusBarPageControl.numberOfPages = (self.contentSize.width / self.frame.size.width);
         _statusBarPageControl.backgroundColor = [UIColor clearColor];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationWillResignActive:)
+                                                     name:UIApplicationWillResignActiveNotification
+                                                   object:nil];
     }
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)applicationWillResignActive:(NSNotification *)notification {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [_statusBarPageControl removeFromSuperview];
 }
 
 - (NSUInteger)pageForX:(CGFloat)x
@@ -91,5 +106,6 @@
     _timer = [NSTimer timerWithTimeInterval:show ? 0 : 2 target:self selector:@selector(animateStatusBarState:) userInfo:@{ @"show" : [NSNumber numberWithBool:show] } repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 }
+
 
 @end
