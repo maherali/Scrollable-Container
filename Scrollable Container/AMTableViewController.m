@@ -32,7 +32,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //  [(AMScrollableContainer *)self.parentViewController makeAllViewsIdentityExceptAtIndex:-1];
     [self.navigationController pushViewController:[[AMTableViewController alloc] init]];
 }
 

@@ -100,16 +100,6 @@
 
 #pragma mark - Scrollview delegate calls
 
--(void)makeAllViewsIdentityExceptAtIndex:(NSUInteger) index
-{
-    [_children enumerateObjectsUsingBlock:^(UIViewController *obj, NSUInteger idx, BOOL *stop) {
-        if (idx != index) {
-            obj.view.transform = CGAffineTransformIdentity;
-            obj.view.layer.cornerRadius = 0;
-        }
-    }];
-}
-
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     NSUInteger currentChild = (_scrollView.contentOffset.x + (self.view.frame.size.width / 2)) / (self.view.frame.size.width);
