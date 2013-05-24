@@ -99,10 +99,16 @@
 - (void)update:(CGPoint) point
 {
     if (_scrollView.isTracking) {
-        [self showPageControl:YES];
+        [_pageControlTimer invalidate];
+        _pageControlTimer = [NSTimer timerWithTimeInterval:0.0 target:self selector:@selector(showPageControl:)
+                                                  userInfo:@ { @"show" : [NSNumber numberWithBool:YES] } repeats:NO];
+        [[NSRunLoop mainRunLoop] addTimer:_pageControlTimer forMode:NSRunLoopCommonModes];
     }
     else if (!_scrollView.isDragging) {
-        [self showPageControl:NO];
+        [_pageControlTimer invalidate];
+        _pageControlTimer = [NSTimer timerWithTimeInterval:0.0 target:self selector:@selector(showPageControl:)
+                                                  userInfo:@ { @"show" : [NSNumber numberWithBool:NO] } repeats:NO];
+        [[NSRunLoop mainRunLoop] addTimer:_pageControlTimer forMode:NSRunLoopCommonModes];
     }
     _statusBarPageControl.currentPage = [self pageForX:point.x];
     
@@ -117,7 +123,10 @@
     else
     {
         [_scrollView updateContentOffset:contentOffset];
-        [self showPageControl:YES];
+        [_pageControlTimer invalidate];
+        _pageControlTimer = [NSTimer timerWithTimeInterval:0.0 target:self selector:@selector(showPageControl:)
+                                                  userInfo:@ { @"show" : [NSNumber numberWithBool:YES] } repeats:NO];
+        [[NSRunLoop mainRunLoop] addTimer:_pageControlTimer forMode:NSRunLoopCommonModes];
         _statusBarPageControl.currentPage = [self pageForX:contentOffset.x];
     }
     
@@ -193,20 +202,18 @@
         return;
     }
     
-    if (scale) {
-        [self showPageControl:YES];
-    }
-    else
-    {
-        [self showPageControl:NO];
-    }
-   
-     _finished = NO;
+    [_pageControlTimer invalidate];
+    _pageControlTimer = [NSTimer timerWithTimeInterval:0.0 target:self selector:@selector(showPageControl:)
+                                              userInfo:@ { @"show" : [NSNumber numberWithBool:scale] } repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:_pageControlTimer forMode:NSRunLoopCommonModes];
+    
+    
+    _finished = NO;
     
     if (scale) {
         v.layer.cornerRadius = 5;
     }
-          
+    
     __weak AMScrollableContainer *weakSelf = self;
     
     [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionCurveLinear
@@ -226,42 +233,36 @@
      ];
 }
 
-- (void)showPageControl:(BOOL)show
+- (void)showPageControl:(NSTimer *)timer
 {
+    BOOL    show = [[timer.userInfo valueForKey:@"show"] boolValue];
+    
     __weak AMScrollableContainer *weakSelf = self;
     
-    if (show)
-    {
-        [UIView animateWithDuration:0.4 animations:^{
-            AMScrollableContainer *strongSelf = weakSelf;
-            if (strongSelf) {
-                [[UIApplication sharedApplication] setStatusBarHidden:YES];
-                 [[[UIApplication sharedApplication] keyWindow] addSubview:strongSelf->_statusBarPageControl];
-            }
-        } completion:^(BOOL finished){
-            AMScrollableContainer *strongSelf = weakSelf;
-            if (strongSelf) {
-               
-            }
+    [UIView animateWithDuration:.4 animations:^{
+        
+        AMScrollableContainer *strongSelf = weakSelf;
+        
+        if (show) {
             
-        }];
-    }
-    else
-    {
-        [UIView animateWithDuration:2 animations:^{
-            AMScrollableContainer *strongSelf = weakSelf;
-            if(strongSelf)
-            {
+            [UIView animateWithDuration:1 animations:^{
+                [[UIApplication sharedApplication] setStatusBarHidden:YES];
+                [[[UIApplication sharedApplication] keyWindow] addSubview:strongSelf->_statusBarPageControl];
+            } completion:NULL];
+            
+        }
+    } completion:^(BOOL finished) {
+        if (!show) {
+            [UIView animateWithDuration:1 animations:^{
                 [[UIApplication sharedApplication] setStatusBarHidden:NO];
+            } completion:^(BOOL finished) {
+                AMScrollableContainer *strongSelf = weakSelf;
+                
                 [strongSelf->_statusBarPageControl removeFromSuperview];
-            }
-        } completion:^(BOOL finished){
-            AMScrollableContainer *strongSelf = weakSelf;
-            if(strongSelf)
-            {
-            }
-        }];
-    }
+            }];
+        }
+    }];
+    
 }
 
 - (NSUInteger)pageForX:(CGFloat)x
@@ -270,9 +271,6 @@
 }
 
 @end
-
-
-
 
 
 
