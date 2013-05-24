@@ -248,7 +248,7 @@
     }
     else
     {
-        [UIView animateWithDuration:0.4 animations:^{
+        [UIView animateWithDuration:2 animations:^{
             AMScrollableContainer *strongSelf = weakSelf;
             if(strongSelf)
             {
