@@ -18,7 +18,7 @@
 
 @interface AMMenuScrollView : UIScrollView
 
-@property (nonatomic, assign) id<AMMenuScrollViewDelegate> scrollViewDelegate;
+@property (nonatomic, weak) id<AMMenuScrollViewDelegate> scrollViewDelegate;
 
 @end
 

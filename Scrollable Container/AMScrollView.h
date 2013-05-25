@@ -15,7 +15,7 @@
 @interface AMScrollView : UIScrollView {
 }
 
-@property (nonatomic, assign) id<AMScrollViewDelegate> amScrollViewDelegate;
+@property (nonatomic, weak) id<AMScrollViewDelegate> amScrollViewDelegate;
 
 - (void)updateContentOffset:(CGPoint) point;
 

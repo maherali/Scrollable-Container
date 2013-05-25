@@ -14,7 +14,7 @@
 
 @interface AMNavigationMenu : UIView
 
-@property (nonatomic, assign) id<NavigationMenuDelegate> navigationMenuDelegate;
+@property (nonatomic, weak) id<NavigationMenuDelegate> navigationMenuDelegate;
 
 - (id)initWithPageTitles:(NSArray *)pageTitles;
 - (void)updateContentOffset:(CGPoint) point;
